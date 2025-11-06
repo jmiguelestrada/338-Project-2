@@ -1,4 +1,4 @@
-package com.example.a338_project2;
+package com.example.a338_project_2;
 
 import org.junit.Test;
 
