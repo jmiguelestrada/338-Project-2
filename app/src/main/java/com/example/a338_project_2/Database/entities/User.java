@@ -6,7 +6,7 @@ import com.example.a338_project_2.Database.UserDatabase;
 
 
 import java.util.Objects;
-@Entity(tableName = "users")
+@Entity(tableName = UserDatabase.USER_TABLE)
 public class User {
     @PrimaryKey(autoGenerate = true)
     private int id;
