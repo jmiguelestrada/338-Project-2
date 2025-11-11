@@ -1,9 +1,11 @@
 package com.example.a338_project_2.Database.entities;
 
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 
@@ -17,24 +19,25 @@ public class Menu {
 
     private int price;
 
-    private String img;
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+    private byte[] image;
 
-    public Menu(String foodName, int price, String img) {
+    public Menu(String foodName, int price, byte[] image) {
         this.foodName = foodName;
         this.price = price;
-        this.img = img;
+        this.image = image;
     }
 
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Menu menu = (Menu) o;
-        return id == menu.id && price == menu.price && Objects.equals(foodName, menu.foodName) && Objects.equals(img, menu.img);
+        return id == menu.id && price == menu.price && Objects.equals(foodName, menu.foodName) && Objects.deepEquals(image, menu.image);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, foodName, price, img);
+        return Objects.hash(id, foodName, price, Arrays.hashCode(image));
     }
 
     public int getId() {
@@ -61,11 +64,11 @@ public class Menu {
         this.price = price;
     }
 
-    public String getImg() {
-        return img;
+    public byte[] getImage() {
+        return image;
     }
 
-    public void setImg(String img) {
-        this.img = img;
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }
