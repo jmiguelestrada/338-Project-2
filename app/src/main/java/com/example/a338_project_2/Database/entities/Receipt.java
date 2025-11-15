@@ -1,6 +1,7 @@
 package com.example.a338_project_2.Database.entities;
 
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
@@ -30,6 +31,18 @@ public class Receipt {
         this.menuItemPrice = menuItemPrice;
         this.menuItemName = menuItemName;
     }
+
+    @NonNull
+    @Override
+    public String toString() {
+        return  "=-=-=-=-=-=-==-=-=-=-=-=-=\n" +
+                "Order: " + id + '\n' +
+                "Customer Name:" + userName + '\n' +
+                "items: "+ menuItemName /*TODO: probably use a foreach to print all items make the database receive an array or hashmap idk */+ "  .............  " + menuItemPrice+'\n' +
+                "total:" + menuItemPrice + '\n' +
+                "=-=-=-=-=-=-==-=-=-=-=-=-=\n";
+    }
+
 
     @Override
     public boolean equals(Object o) {
