@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">338_Project_2</string>
+    <string name="gatedash">GateDash</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="welcome_to_gatedash">Welcome to GateDash!</string>
+    <string name="mainActivityLogin">Login</string>
+    <string name="create_an_account">Create an account</string>
 </resources>
