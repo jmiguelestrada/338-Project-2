@@ -32,6 +32,14 @@ public class MainActivity extends AppCompatActivity {
         if (loggedInUserId == LOGGED_OUT) {
             setupLoggedOutUi();
         }
+
+        binding.mainActivityLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
+                startActivity(intent);
+            }
+        });
     }
 
     private void handleLoginOrSession() {
@@ -46,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (loggedInUserId != LOGGED_OUT) {
-            //goToLanding();
+            goToLanding();
         }
     }
 
@@ -58,10 +66,10 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(LoginActivity.loginIntentFactory(getApplicationContext())));
     }
 
-    /*private void goToLanding() {
-        startActivity(new Intent(this, LandingPageActivity.class));
+    private void goToLanding() {
+        startActivity(new Intent(this, LandingPage.class));
         finish();
-    }*/
+    }
 
     static Intent mainActivityIntentFactory(Context context, int userId) {
         Intent intent = new Intent(context, MainActivity.class);
