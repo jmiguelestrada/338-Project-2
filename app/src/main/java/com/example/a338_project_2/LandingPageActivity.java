@@ -23,16 +23,16 @@ import com.example.a338_project_2.databinding.ActivityMainBinding;
 
 public class LandingPageActivity extends AppCompatActivity {
 
-    private static final String MAIN_ACTIVITY_USER_ID = "com.example.hw04_gymlog_v300.MAIN_ACTIVITY_USER_ID";
+    private static final String MAIN_ACTIVITY_USER_ID = "MAIN_ACTIVITY_USER_ID";
     @SuppressWarnings("UnusedDeclaration")
-    static final String SHARED_PREFERENCE_USERID_KEY = "com.example.hw04_gymlog_v300.SHARED_PREFERENCE_USERID_KEY";
+    static final String SHARED_PREFERENCE_USERID_KEY = "SHARED_PREFERENCE_USERID_KEY";
 
-    static final String SAVED_INSTANCE_STATE_USERID_KEY = "com.example.hw04_gymlog_v300.SAVED_INSTANCE_STATE_USERID_KEY";
+    static final String SAVED_INSTANCE_STATE_USERID_KEY = "SAVED_INSTANCE_STATE_USERID_KEY";
     private static final int LOGGED_OUT = -1;
     private ActivityLandingPageBinding binding;
     private MenuRepository repository;
     public static final String  TAG = "DAC_MENU";
-    private int loggedInUserId = -1;
+    private int loggedInUserId = LOGGED_OUT;
     private User user;
 
     @Override
@@ -88,6 +88,11 @@ public class LandingPageActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+
+        if (!user.isAdmin()){
+            binding.adminSettingsButton.setVisibility(View.INVISIBLE);
+        }
+
         MenuItem item = menu.findItem(R.id.logoutMenuItem);
         item.setVisible(true);
         if(user == null){
@@ -155,6 +160,8 @@ public class LandingPageActivity extends AppCompatActivity {
     }
 
     static Intent landingPageIntentFactory(Context context, int userId) {
-        return new Intent(context, LandingPageActivity.class);
+        Intent intent = new Intent(context, LandingPageActivity.class);
+        intent.putExtra(MAIN_ACTIVITY_USER_ID, userId);
+        return intent;
     }
 }
