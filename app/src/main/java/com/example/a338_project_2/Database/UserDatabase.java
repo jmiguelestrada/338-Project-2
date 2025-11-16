@@ -51,7 +51,7 @@ public abstract class UserDatabase extends RoomDatabase {
             super.onCreate(db);
             //TODO: create Main activity page
             //Log.i(MainActivity.TAG, "DATABASE CREATED!");
-            databaseWriteExecutor.execute(() -> {
+            /*databaseWriteExecutor.execute(() -> {
                 UserDAO dao = INSTANCE.userDAO();
                 dao.deleteAll();
                 User admin = new User("admin1", "admin1");
@@ -60,7 +60,7 @@ public abstract class UserDatabase extends RoomDatabase {
 
                 User testUser1 = new User("testuser1", "testuser1");
                 dao.insert(testUser1);
-            });
+            });*/
         }
     };
 
