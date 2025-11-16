@@ -9,7 +9,7 @@
 
 
     <TextView
-        android:id="@+id/receiptTitle"
+        android:id="@+id/receiptTitleTextView"
         android:layout_width="match_parent"
         android:layout_height="150dip"
         android:textSize="42sp"
@@ -22,14 +22,17 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/receiptInfoTextView"
+        android:layout_width="288dp"
+        android:layout_height="325dp"
+        android:layout_marginBottom="79dp"
+        android:gravity="center"
         android:text="Receipt Info"
-        android:layout_margin="60dip"
+        app:layout_constraintBottom_toBottomOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/receiptTitle" />
+        app:layout_constraintTop_toBottomOf="@+id/receiptTitleTextView" />
+
 
     <Button
         android:id="@+id/button"

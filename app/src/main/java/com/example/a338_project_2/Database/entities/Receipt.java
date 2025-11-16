@@ -38,7 +38,7 @@ public class Receipt {
         return  "=-=-=-=-=-=-==-=-=-=-=-=-=\n" +
                 "Order: " + id + '\n' +
                 "Customer Name:" + userName + '\n' +
-                "items: "+ menuItemName /*TODO: probably use a foreach to print all items make the database receive an array or hashmap idk */+ "  .............  " + menuItemPrice+'\n' +
+                "items: "+ menuItemName /*TODO: probably use a foreach to print all items make the database receive an array or hashmap idk */ + "  .............  " + menuItemPrice + '\n' +
                 "total:" + menuItemPrice + '\n' +
                 "=-=-=-=-=-=-==-=-=-=-=-=-=\n";
     }
