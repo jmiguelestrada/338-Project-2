@@ -26,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
 
         repository = MenuRepository.getRepository(getApplication());
 
-        binding.activityloginLoginButton.setOnClickListener(new View.OnClickListener() {
+        binding.activityLoginLoginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 verifyUser();
@@ -46,7 +46,9 @@ public class LoginActivity extends AppCompatActivity {
             if(user !=null) {
                 String password = binding.passwordLoginEditTextView.getText().toString();
                 if(password.equals(user.getPassword())) {
-                    startActivity(MainActivity.mainActivityIntentFactory(getApplicationContext(),user.getId()));
+                    startActivity(LandingPageActivity.landingPageIntentFactory(getApplicationContext()));
+                    //Intent intent = LandingPageActivity.landingPageIntentFactory(getApplicationContext());
+                    //startActivity(intent);
                 }else {
                     toastMaker("Invalid password");
                     binding.passwordLoginEditTextView.setSelection(0);

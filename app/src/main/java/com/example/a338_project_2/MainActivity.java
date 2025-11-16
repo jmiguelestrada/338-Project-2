@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void goToLanding() {
-        startActivity(new Intent(this, LandingPage.class));
+        startActivity(new Intent(this, LandingPageActivity.class));
         finish();
     }
 
