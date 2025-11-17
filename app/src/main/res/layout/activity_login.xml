@@ -11,7 +11,7 @@
         android:id="@+id/LoginTextView"
         android:layout_width="match_parent"
         android:layout_height="75dp"
-        android:layout_margin="16dp"
+        android:layout_marginTop="90dp"
         android:gravity="center"
         android:text="@string/gatedash"
         android:textSize="42sp"
