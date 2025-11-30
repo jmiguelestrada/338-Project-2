@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
-@Entity(tableName = "Menu")
+@Entity(tableName = "Cart")
 public class Cart {
 
     @PrimaryKey
