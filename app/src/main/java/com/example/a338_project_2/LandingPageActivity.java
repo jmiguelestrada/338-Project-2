@@ -39,7 +39,7 @@ public class LandingPageActivity extends AppCompatActivity {
     private int friesCount = 0;
 
 
-
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +80,7 @@ public class LandingPageActivity extends AppCompatActivity {
          */
         binding.button3.setOnClickListener(v->{
             sodaCount++;
-            binding.burgerCount.setText(String.valueOf(sodaCount));
+            binding.sodaCount.setText(String.valueOf(sodaCount));
         });
 
         binding.button5.setOnClickListener(v->{
