@@ -31,7 +31,6 @@
         android:paddingTop="8dp"
         android:paddingBottom="8dp" />
 
-    <!-- Optional: checkout button -->
     <Button
         android:id="@+id/checkoutButton"
         android:layout_width="match_parent"

@@ -42,7 +42,6 @@ public class CartAdapter extends RecyclerView.Adapter<CartAdapter.CartViewHolder
         String qtyText = "Qty: " + item.getMenuItemQuantity();
         holder.quantityTextView.setText(qtyText);
 
-        // Price for this line: price * quantity
         double lineTotal = item.getMenuItemPrice() * item.getMenuItemQuantity();
         holder.priceTextView.setText(
                 String.format("$%.2f each | $%.2f", item.getMenuItemPrice(), lineTotal)
