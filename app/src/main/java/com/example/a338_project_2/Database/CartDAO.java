@@ -27,16 +27,16 @@ public interface CartDAO {
     @Delete
     void delete(Cart cart);
 
-    @Query("DELETE FROM Cart")
+    @Query("DELETE FROM Menu")
     void clearCart();
 
-    @Query("SELECT * FROM Cart")
+    @Query("SELECT * FROM Menu")
     List<Cart> getAllCartItems();
 
-    @Query("SELECT * FROM Cart WHERE menuItemId = :menuItemId LIMIT 1")
+    @Query("SELECT * FROM Menu WHERE menuItemId = :menuItemId LIMIT 1")
     Cart getCartItemByMenuId(int menuItemId);
 
-    @Query("SELECT SUM(menuItemQuantity) FROM Cart")
+    @Query("SELECT SUM(menuItemQuantity) FROM Menu")
     int getTotalItemCount();
 
 
