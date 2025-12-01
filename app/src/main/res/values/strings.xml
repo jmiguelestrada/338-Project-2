@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">338_Project_2</string>
-    <string name="thanks_for_your_purchase">Thanks for your purchase!!</string>
+    <string name="gatedash">GateDash</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="welcome_to_gatedash">Welcome to GateDash!</string>
+    <string name="mainActivityLogin">Login</string>
+    <string name="create_an_account">Create an account</string>
+    <string name="admin_settings">Admin Settings</string>
+    <string name="cart">Cart</string>
+    <string name="preference_file_key">daclinkPreferenceFileNameGymLog</string>
+    <string name="preference_userId_key">daclinkPreferenceUserIdKeyGymLog</string>
+    <string name="add">add</string>
 </resources>

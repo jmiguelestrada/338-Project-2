@@ -2,6 +2,7 @@ package com.example.a338_project_2.Database;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.room.Database;
@@ -10,6 +11,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.a338_project_2.Database.entities.User;
+import com.example.a338_project_2.MainActivity;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -49,8 +51,7 @@ public abstract class MenuDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db){
             super.onCreate(db);
-            //TODO: default for menu item when there's no items yet
-            /*Log.i(MainActivity.TAG, "DATABASE CREATED!");
+            Log.i(MainActivity.TAG, "DATABASE CREATED!");
             databaseWriteExecutor.execute(() -> {
                 UserDAO dao = INSTANCE.userDAO();
                 dao.deleteAll();
@@ -60,7 +61,11 @@ public abstract class MenuDatabase extends RoomDatabase {
 
                 User testUser1 = new User("testuser1", "testuser1");
                 dao.insert(testUser1);
-            });*/
+            });
         }
     };
+
+
+    public abstract UserDAO userDAO();
+    public abstract MenuDAO menuDAO();
 }

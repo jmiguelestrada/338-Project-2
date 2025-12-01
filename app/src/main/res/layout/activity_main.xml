@@ -8,12 +8,40 @@
     tools:context=".MainActivity">
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:id="@+id/mainActivityTextView"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:layout_marginTop="70dp"
+        android:text="@string/welcome_to_gatedash"
+        android:textSize="32sp"
+        android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/mainActivity_LoginButton"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_margin="56dp"
+        android:text="@string/mainActivityLogin"
+        android:textSize="28sp"
+        android:gravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mainActivityTextView" />
+
+    <Button
+        android:id="@+id/mainActivity_SignupButton"
+        android:layout_width="331dp"
+        android:layout_height="105dp"
+        android:layout_margin="56dp"
+        android:gravity="center"
+        android:text="@string/create_an_account"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/mainActivity_LoginButton" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
