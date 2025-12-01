@@ -52,7 +52,6 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // Refresh in case cart changed
         loadCartItems();
     }
 
