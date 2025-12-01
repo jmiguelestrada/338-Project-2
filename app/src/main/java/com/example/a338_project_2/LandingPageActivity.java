@@ -34,6 +34,13 @@ public class LandingPageActivity extends AppCompatActivity {
     public static final String  TAG = "DAC_MENU";
     private int loggedInUserId = LOGGED_OUT;
     private User user;
+    private int burgerCount = 0;
+    private int sodaCount = 0;
+    private int friesCount = 0;
+
+
+    //Buttons for adding and removing:
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
