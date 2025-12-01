@@ -12,10 +12,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
         <activity
+            android:name=".CartActivity"
+            android:exported="false" />
+        <activity
             android:name=".LandingPageActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ReceiptActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
