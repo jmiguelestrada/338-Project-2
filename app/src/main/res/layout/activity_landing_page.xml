@@ -92,12 +92,12 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="140dp"
-        android:layout_height="151dp"
+        android:layout_width="142dp"
+        android:layout_height="143dp"
         android:layout_marginStart="16dp"
+        android:src="@drawable/burger"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeMessage"
-        android:src="@drawable/burger" />
+        app:layout_constraintTop_toBottomOf="@+id/welcomeMessage" />
 
     <TextView
         android:id="@+id/textView2"
@@ -140,8 +140,10 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/textView2"
         app:layout_constraintEnd_toEndOf="@+id/welcomeMessage"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeMessage" />
+        app:layout_constraintTop_toBottomOf="@+id/welcomeMessage"
+        app:layout_constraintVertical_bias="1.0" />
 
     <Button
         android:id="@+id/button2"
@@ -166,8 +168,10 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/button2"
         app:layout_constraintEnd_toEndOf="@+id/button6"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/button6" />
+        app:layout_constraintTop_toBottomOf="@+id/button6"
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/button4"
