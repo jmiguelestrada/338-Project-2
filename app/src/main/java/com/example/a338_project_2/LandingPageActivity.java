@@ -39,11 +39,11 @@ public class LandingPageActivity extends AppCompatActivity {
     private int friesCount = 0;
 
 
-    //Buttons for adding and removing:
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         binding = ActivityLandingPageBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -56,6 +56,24 @@ public class LandingPageActivity extends AppCompatActivity {
             startActivity(intent);
         }
         updateSharedPreference();
+
+        /**
+         * Code for the Buttons to add and sub
+         */
+
+        binding.button6.setOnClickListener(v -> {
+            burgerCount++;
+            binding.burgerCount.setText(String.valueOf(burgerCount));
+        });
+
+        binding.button.setOnClickListener(v -> {
+            if (burgerCount > 0) burgerCount--;
+            binding.burgerCount.setText(String.valueOf(burgerCount));
+        });
+
+
+
+
     }
 
     private void loginUser(Bundle savedInstanceState) {
@@ -89,6 +107,7 @@ public class LandingPageActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.logout_menu, menu);
+
         return true;
     }
 
