@@ -22,12 +22,6 @@ import java.util.List;
 
 public class CartActivity extends AppCompatActivity {
 
-
-    private RecyclerView cartRecyclerView;
-    private TextView totalPriceTextView;
-
-
-    private CartAdapter cartAdapter;
     private CartDAO cartDAO;
 
 
@@ -35,44 +29,6 @@ public class CartActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
-
-        cartRecyclerView = findViewById(R.id.cartRecyclerView);
-        totalPriceTextView = findViewById(R.id.totalPriceTextView);
-
-        cartDAO = MenuDatabase.getDatabase(getApplicationContext()).cartDAO();
-
-        cartAdapter = new CartAdapter(new ArrayList<>());
-        cartRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        cartRecyclerView.setAdapter(cartAdapter);
-
-        loadCartItems();
-    }
-
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadCartItems();
-    }
-
-
-    private void loadCartItems() {
-        MenuDatabase.databaseWriteExecutor.execute(() -> {
-            List<Cart> cartItems = cartDAO.getAllCartItems();
-
-
-            double total = 0.0;
-            for (Cart item : cartItems) {
-                total += item.getMenuItemPrice() * item.getMenuItemQuantity();
-            }
-
-
-            double finalTotal = total;
-            runOnUiThread(() -> {
-                cartAdapter.setItems(cartItems);
-                totalPriceTextView.setText(String.format("Total: $%.2f", finalTotal));
-            });
-        });
     }
 
     public static android.content.Intent cartIntentFactory(android.content.Context context) {
