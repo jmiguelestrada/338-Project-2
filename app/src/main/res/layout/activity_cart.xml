@@ -19,7 +19,8 @@
     <TextView
         android:id="@+id/cartRecyclerView"
         android:layout_width="match_parent"
-        android:text="test"
+        android:text=""
+        android:inputType="text"
         android:textSize="30sp"
         android:layout_height="0dp"
         android:layout_weight="1" />

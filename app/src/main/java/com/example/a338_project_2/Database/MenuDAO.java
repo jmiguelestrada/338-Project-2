@@ -25,6 +25,8 @@ public interface MenuDAO {
     @Query("DELETE from " + MenuDatabase.MENU_TABLE)
     void deleteAll();
 
+
+
     @Query("SELECT * from " + MenuDatabase.MENU_TABLE + " WHERE foodName == :foodName")
     LiveData<FoodMenu> getMenuItemByName(String foodName);
 

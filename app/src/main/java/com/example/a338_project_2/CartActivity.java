@@ -33,6 +33,7 @@ import com.example.a338_project_2.databinding.ActivityCartBinding;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 
@@ -61,7 +62,6 @@ public class CartActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        repository = MenuRepository.getRepository(getApplication());
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         /*loginUser(savedInstanceState);*/
 
@@ -71,9 +71,9 @@ public class CartActivity extends AppCompatActivity {
         }*/
         /*updateSharedPreference();*/
 
-
+        binding.cartRecyclerView.setText(createOrderText());
         setContentView(R.layout.activity_cart);
-        binding.cartRecyclerView.setText(String.format(createOrderText()));
+
         
     }
 
