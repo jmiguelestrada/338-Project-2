@@ -5,11 +5,13 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import com.example.a338_project_2.Database.MenuDatabase;
+
 import java.util.Arrays;
 import java.util.Objects;
 
 
-@Entity(tableName = "Menu")
+@Entity(tableName = MenuDatabase.MENU_TABLE)
 public class Menu {
 
     @PrimaryKey

@@ -39,9 +39,6 @@ public interface CartDAO {
     @Query("SELECT SUM(menuItemQuantity) FROM Menu")
     int getTotalItemCount();
 
-
-    @Query("DELETE FROM Cart WHERE id = :cartId")
-    void deleteById(int cartId);
 }
 
 

@@ -21,6 +21,8 @@ import com.example.a338_project_2.Database.entities.User;
 import com.example.a338_project_2.databinding.ActivityLandingPageBinding;
 import com.example.a338_project_2.databinding.ActivityMainBinding;
 
+import java.util.HashMap;
+
 public class LandingPageActivity extends AppCompatActivity {
 
     private static final String MAIN_ACTIVITY_USER_ID = "MAIN_ACTIVITY_USER_ID";
@@ -38,6 +40,7 @@ public class LandingPageActivity extends AppCompatActivity {
     private int sodaCount = 0;
     private int friesCount = 0;
 
+    private HashMap<LiveData<Menu>, Integer> userOrder;
 
     
 
@@ -57,7 +60,7 @@ public class LandingPageActivity extends AppCompatActivity {
         }
         updateSharedPreference();
 
-        /**
+        /*
          * Code for the Buttons to add and sub
          */
 
@@ -104,7 +107,10 @@ public class LandingPageActivity extends AppCompatActivity {
         });
 
 
+        binding.userCartButton.setOnClickListener(v -> {
 
+
+        });
 
 
     }

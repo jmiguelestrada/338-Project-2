@@ -12,13 +12,14 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.a338_project_2.Database.entities.Cart;
+import com.example.a338_project_2.Database.entities.Menu;
 import com.example.a338_project_2.Database.entities.User;
 import com.example.a338_project_2.MainActivity;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, Cart.class}, version = 2, exportSchema = false)
+@Database(entities = {User.class, Cart.class, Menu.class}, version = 1, exportSchema = false)
 public abstract class MenuDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "menu_database";
