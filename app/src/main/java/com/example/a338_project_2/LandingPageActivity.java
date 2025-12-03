@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -20,6 +21,7 @@ import com.example.a338_project_2.Database.MenuRepository;
 import com.example.a338_project_2.Database.entities.User;
 import com.example.a338_project_2.databinding.ActivityLandingPageBinding;
 import com.example.a338_project_2.databinding.ActivityMainBinding;
+import com.example.a338_project_2.Database.entities.FoodMenu;
 
 import java.util.HashMap;
 
@@ -40,7 +42,7 @@ public class LandingPageActivity extends AppCompatActivity {
     private int sodaCount = 0;
     private int friesCount = 0;
 
-    private HashMap<LiveData<Menu>, Integer> userOrder;
+    private HashMap<LiveData<FoodMenu>, Integer> userOrder = new HashMap<>();
 
     
 
@@ -108,7 +110,14 @@ public class LandingPageActivity extends AppCompatActivity {
 
 
         binding.userCartButton.setOnClickListener(v -> {
-
+            userOrder.put(repository.getMenuItemByName("Burger"), burgerCount);
+            userOrder.put(repository.getMenuItemByName("Fries"), friesCount);
+            userOrder.put(repository.getMenuItemByName("Soda"), sodaCount);
+            if (!userOrder.isEmpty() && (burgerCount + friesCount + sodaCount > 0)){
+                startActivity(CartActivity.cartActivityIntentFactory(getApplicationContext(), user.getId(), userOrder));
+            }else {
+                Toast.makeText(this, "Please Order something bro...", Toast.LENGTH_SHORT).show();
+            }
 
         });
 
