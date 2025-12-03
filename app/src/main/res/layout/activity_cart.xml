@@ -10,14 +10,17 @@
         android:id="@+id/cartTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
         android:text="Your Cart"
         android:textStyle="bold"
         android:textSize="22sp"
         android:paddingBottom="8dp" />
 
-    <androidx.recyclerview.widget.RecyclerView
+    <TextView
         android:id="@+id/cartRecyclerView"
         android:layout_width="match_parent"
+        android:text="test"
+        android:textSize="30sp"
         android:layout_height="0dp"
         android:layout_weight="1" />
 

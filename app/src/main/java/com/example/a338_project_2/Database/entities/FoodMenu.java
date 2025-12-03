@@ -12,7 +12,7 @@ import java.util.Objects;
 @Entity(tableName = MenuDatabase.MENU_TABLE)
 public class FoodMenu {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
 
     private String foodName;
