@@ -28,11 +28,11 @@ public abstract class MenuDatabase extends RoomDatabase {
 
     private static final int NUMBER_OF_THREADS = 4;
 
-    static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+    public static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
 
     @SuppressWarnings("deprecation")
-    static MenuDatabase getDatabase(final Context context){
+    public static MenuDatabase getDatabase(final Context context){
         if(INSTANCE == null){
             synchronized (MenuDatabase.class){
                 if(INSTANCE == null){
