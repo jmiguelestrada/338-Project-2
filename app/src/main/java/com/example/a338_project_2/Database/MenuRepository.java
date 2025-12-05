@@ -5,6 +5,7 @@ import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 
+import com.example.a338_project_2.Database.entities.FoodMenu;
 import com.example.a338_project_2.Database.entities.User;
 import com.example.a338_project_2.MainActivity;
 
@@ -57,6 +58,9 @@ public class MenuRepository {
         return userDAO.getUserbyUserName(username);
     }
 
+    public LiveData<FoodMenu> getMenuItemByName(String menuItemName){
+        return menuDAO.getMenuItemByName(menuItemName);
+    }
     public LiveData<User> getUserByUserId(int userId) {
         return userDAO.getUserbyUserId(userId);
     }

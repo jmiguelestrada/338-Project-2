@@ -36,12 +36,14 @@ public interface CartDAO {
     @Query("SELECT * FROM Menu WHERE menuItemId = :menuItemId LIMIT 1")
     Cart getCartItemByMenuId(int menuItemId);
 
-    @Query("SELECT SUM(menuItemQuantity) FROM Menu")
-    int getTotalItemCount();
+    @Query("SELECT SUM(menuItemQuantity) FROM Menu WHERE userId = :userId")
+    Integer getTotalItemCount(int userId);
 
+    @Query("DELETE FROM Menu WHERE userId = :userId")
+    void clearCartForUser(int userId);
 
-    @Query("DELETE FROM Cart WHERE id = :cartId")
-    void deleteById(int cartId);
+    @Query("SELECT * FROM Menu WHERE userId = :userId")
+    List<Cart> getAllCartItemsForUser(int userId);
 }
 
 

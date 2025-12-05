@@ -153,6 +153,8 @@
         android:layout_width="157dp"
         android:layout_height="61dp"
         android:layout_margin="57dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginBottom="56dp"
         android:text="@string/admin_settings"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

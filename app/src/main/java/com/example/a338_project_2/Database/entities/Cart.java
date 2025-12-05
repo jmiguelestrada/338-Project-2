@@ -9,25 +9,28 @@ import java.util.Objects;
 @Entity(tableName = "Menu")
 public class Cart {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private int id;
+
+    private int userId;
 
     private int menuItemId;
 
     private int menuItemQuantity;
 
-    private int menuItemName;
+    private String menuItemName;
 
     private int menuItemPrice;
 
     private int total;
 
-    public Cart(int menuItemId, int menuItemQuantity, int menuItemName, int menuItemPrice, int total) {
+    public Cart(int userId, int menuItemId, String menuItemName, int menuItemPrice, int menuItemQuantity)
+    {
+        this.userId = userId;
         this.menuItemId = menuItemId;
-        this.menuItemQuantity = menuItemQuantity;
         this.menuItemName = menuItemName;
         this.menuItemPrice = menuItemPrice;
-        this.total = total;
+        this.menuItemQuantity = menuItemQuantity;
     }
 
     @Override
@@ -50,6 +53,16 @@ public class Cart {
         this.id = id;
     }
 
+    public int getUserId()
+    {
+        return userId;
+    }
+
+    public void setUserId(int userId)
+    {
+        this.userId = userId;
+    }
+
     public int getMenuItemId() {
         return menuItemId;
     }
@@ -66,11 +79,11 @@ public class Cart {
         this.menuItemQuantity = menuItemQuantity;
     }
 
-    public int getMenuItemName() {
+    public String getMenuItemName() {
         return menuItemName;
     }
 
-    public void setMenuItemName(int menuItemName) {
+    public void setMenuItemName(String menuItemName) {
         this.menuItemName = menuItemName;
     }
 
