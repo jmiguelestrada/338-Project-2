@@ -2,13 +2,20 @@ package com.example.a338_project_2;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
@@ -51,14 +58,15 @@ public class CartActivity extends AppCompatActivity {
         binding = ActivityCartBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        /*loginUser(savedInstanceState);*/
+        repository = MenuRepository.getRepository(getApplication());
+        loginUser(savedInstanceState);
 
-        /*if(loggedInUserId == -1){
+        if (loggedInUserId == LOGGED_OUT) {
             Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
             startActivity(intent);
-        }*/
-        /*updateSharedPreference();*/
-
+            finish();
+            return;
+        }
         updateCartDisplay();
 
         binding.checkoutButton.setOnClickListener( v -> {
@@ -94,7 +102,7 @@ public class CartActivity extends AppCompatActivity {
         );
     }
 
-   /* private void loginUser(Bundle savedInstanceState) {
+    private void loginUser(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),
                 Context.MODE_PRIVATE);
 
@@ -118,30 +126,30 @@ public class CartActivity extends AppCompatActivity {
                 invalidateOptionsMenu();
             }
         });
-
     }
-    */
 
-    //This is in order to have the login button - a few bugs
-    /*@Override
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.logout_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-
-
         MenuItem item = menu.findItem(R.id.logoutMenuItem);
         item.setVisible(true);
-        if(user == null){
+
+        if (user == null) {
             return false;
         }
+
         item.setTitle(user.getUsername());
-        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
-
-                showLogoutDialog();
-                return false;
-            }
+        item.setOnMenuItemClickListener(menuItem -> {
+            showLogoutDialog();
+            return false;
         });
+
         return true;
     }
 
@@ -184,7 +192,8 @@ public class CartActivity extends AppCompatActivity {
         SharedPreferences.Editor sharedPrefEditor = sharedPreferences.edit();
         sharedPrefEditor.putInt(getString(R.string.preference_userId_key), loggedInUserId);
         sharedPrefEditor.apply();
-    }*/
+    }
+
     static Intent cartActivityIntentFactory(Context context, int userId, HashMap<FoodMenu, Integer> userOrder) {
         Intent intent = new Intent(context, CartActivity.class);
         intent.putExtra(MAIN_ACTIVITY_USER_ID, userId);

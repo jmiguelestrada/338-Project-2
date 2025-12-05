@@ -127,9 +127,8 @@ public class LandingPageActivity extends AppCompatActivity {
 
 
         binding.userCartButton.setOnClickListener(v -> {
-            userOrder.clear();  // avoid stale data from previous visit
+            userOrder.clear();
 
-            // Use cached FoodMenu objects, not LiveData.getValue()
             if (burgerCount > 0 && burgerFood != null) {
                 userOrder.put(burgerFood, burgerCount);
             }
