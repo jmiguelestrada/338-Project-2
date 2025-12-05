@@ -2,6 +2,7 @@ package com.example.a338_project_2;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -37,25 +38,42 @@ public class LoginActivity extends AppCompatActivity {
     private void verifyUser() {
         String username = binding.usernameLoginEditTextView.getText().toString();
 
-        if(username.isEmpty()) {
+        if (username.isEmpty()) {
             toastMaker("Username should not be blank");
             return;
         }
+
         LiveData<User> userObserver = repository.getUserByUserName(username);
         userObserver.observe(this, user -> {
-            if(user !=null) {
+            if (user != null) {
                 String password = binding.passwordLoginEditTextView.getText().toString();
-                if(password.equals(user.getPassword())) {
-                    startActivity(LandingPageActivity.landingPageIntentFactory(getApplicationContext(), user.getId()));
-                }else {
+                if (password.equals(user.getPassword())) {
+                    onLoginSuccess(user);
+                } else {
                     toastMaker("Invalid password");
                     binding.passwordLoginEditTextView.setSelection(0);
                 }
-            }else {
+            } else {
                 toastMaker(String.format("%s is not a valid username", username));
                 binding.usernameLoginEditTextView.setSelection(0);
             }
         });
+    }
+
+    private void onLoginSuccess(User user) {
+        int userId = user.getId();
+
+        SharedPreferences sp = getSharedPreferences(
+                MainActivity.SHARED_PREFERENCE_USERID_KEY,
+                Context.MODE_PRIVATE
+        );
+        sp.edit()
+                .putInt(MainActivity.SHARED_PREFERENCE_USERID_VALUE, userId)
+                .apply();
+
+        Intent intent = MainActivity.mainActivityIntentFactory(this, userId);
+        startActivity(intent);
+        finish();
     }
 
     private void toastMaker(String message) {

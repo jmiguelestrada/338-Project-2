@@ -9,24 +9,26 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
 
+import com.example.a338_project_2.Database.CartDAO;
+import com.example.a338_project_2.Database.MenuDatabase;
 import com.example.a338_project_2.Database.MenuRepository;
+import com.example.a338_project_2.Database.entities.Cart;
 import com.example.a338_project_2.Database.entities.FoodMenu;
 import com.example.a338_project_2.Database.entities.User;
 import com.example.a338_project_2.databinding.ActivityCartBinding;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -61,42 +63,56 @@ public class CartActivity extends AppCompatActivity {
         repository = MenuRepository.getRepository(getApplication());
         loginUser(savedInstanceState);
 
+        loggedInUserId = getIntent().getIntExtra(MAIN_ACTIVITY_USER_ID, LOGGED_OUT);
+
+        if (loggedInUserId == LOGGED_OUT) {
+            SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
+                    getString(R.string.preference_file_key),
+                    Context.MODE_PRIVATE
+            );
+            loggedInUserId = sharedPreferences.getInt(getString(R.string.preference_userId_key), LOGGED_OUT);
+        }
+
         if (loggedInUserId == LOGGED_OUT) {
             Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
             startActivity(intent);
             finish();
             return;
         }
-        updateCartDisplay();
 
-        binding.checkoutButton.setOnClickListener( v -> {
-            Toast.makeText(this, "Order placed!", Toast.LENGTH_SHORT).show();
+        loadCartFromDatabase();
+        binding.checkoutButton.setOnClickListener(v ->
+                Toast.makeText(this, "Order placed!", Toast.LENGTH_SHORT).show()
+        );
+    }
+
+
+    private void loadCartFromDatabase() {
+        MenuDatabase.databaseWriteExecutor.execute(() -> {
+            CartDAO cartDAO = MenuDatabase.getDatabase(getApplicationContext()).cartDAO();
+            List<Cart> items = cartDAO.getAllCartItemsForUser(loggedInUserId);
+
+            runOnUiThread(() -> updateCartDisplay(items));
         });
     }
 
-    private void updateCartDisplay() {
+    private void updateCartDisplay(List<Cart> items) {
         StringBuilder itemsText = new StringBuilder();
         int total = 0;
 
-        for (Map.Entry<FoodMenu, Integer> entry : cartUserOrder.entrySet()) {
-            FoodMenu food = entry.getKey();
-            Integer quantity = entry.getValue();
+        for (Cart item : items) {
+            int lineTotal = item.getMenuItemPrice() * item.getMenuItemQuantity();
+            total += lineTotal;
 
-            if (food != null && quantity != null && quantity > 0) {
-                int lineTotal = food.getPrice() * quantity;
-                total += lineTotal;
-
-                itemsText.append(food.getFoodName())
-                        .append(" × ")
-                        .append(quantity)
-                        .append(" = $")
-                        .append(lineTotal)
-                        .append("\n");
-            }
+            itemsText.append(item.getMenuItemName())
+                    .append(" × ")
+                    .append(item.getMenuItemQuantity())
+                    .append(" = $")
+                    .append(lineTotal)
+                    .append("\n");
         }
 
         binding.cartOrderTextView.setText(itemsText.toString());
-
         binding.totalPriceTextView.setText(
                 String.format("Total: $%.2f", (double) total)
         );
@@ -194,10 +210,9 @@ public class CartActivity extends AppCompatActivity {
         sharedPrefEditor.apply();
     }
 
-    static Intent cartActivityIntentFactory(Context context, int userId, HashMap<FoodMenu, Integer> userOrder) {
+    static Intent cartActivityIntentFactory(Context context, int userId) {
         Intent intent = new Intent(context, CartActivity.class);
         intent.putExtra(MAIN_ACTIVITY_USER_ID, userId);
-        cartUserOrder = userOrder;
         return intent;
     }
 }
