@@ -38,11 +38,20 @@ public class LandingPageActivity extends AppCompatActivity {
     public static final String  TAG = "DAC_MENU";
     private int loggedInUserId = LOGGED_OUT;
     private User user;
+
+    private LiveData<FoodMenu> burgerLiveData;
+    private LiveData<FoodMenu> friesLiveData;
+    private LiveData<FoodMenu> sodaLiveData;
+
+    private FoodMenu burgerFood;
+    private FoodMenu friesFood;
+    private FoodMenu sodaFood;
+
     private int burgerCount = 0;
     private int sodaCount = 0;
     private int friesCount = 0;
 
-    private HashMap<LiveData<FoodMenu>, Integer> userOrder = new HashMap<>();
+    private HashMap<FoodMenu, Integer> userOrder = new HashMap<>();
 
     
 
@@ -61,6 +70,14 @@ public class LandingPageActivity extends AppCompatActivity {
             startActivity(intent);
         }
         updateSharedPreference();
+
+        burgerLiveData = repository.getMenuItemByName("Burger");
+        friesLiveData  = repository.getMenuItemByName("Fries");
+        sodaLiveData   = repository.getMenuItemByName("Soda");
+
+        burgerLiveData.observe(this, food -> burgerFood = food);
+        friesLiveData.observe(this,  food -> friesFood  = food);
+        sodaLiveData.observe(this,   food -> sodaFood   = food);
 
         /*
          * Code for the Buttons to add and sub
@@ -110,15 +127,32 @@ public class LandingPageActivity extends AppCompatActivity {
 
 
         binding.userCartButton.setOnClickListener(v -> {
-            userOrder.put(repository.getMenuItemByName("Burger"), burgerCount);
-            userOrder.put(repository.getMenuItemByName("Fries"), friesCount);
-            userOrder.put(repository.getMenuItemByName("Soda"), sodaCount);
-            if (!userOrder.isEmpty() && (burgerCount + friesCount + sodaCount > 0)){
-                startActivity(CartActivity.cartActivityIntentFactory(getApplicationContext(), user.getId(), userOrder));
-            }else {
-                Toast.makeText(this, "Please Order something bro...", Toast.LENGTH_SHORT).show();
+            userOrder.clear();  // avoid stale data from previous visit
+
+            // Use cached FoodMenu objects, not LiveData.getValue()
+            if (burgerCount > 0 && burgerFood != null) {
+                userOrder.put(burgerFood, burgerCount);
+            }
+            if (friesCount > 0 && friesFood != null) {
+                userOrder.put(friesFood, friesCount);
+            }
+            if (sodaCount > 0 && sodaFood != null) {
+                userOrder.put(sodaFood, sodaCount);
             }
 
+            int totalItems = burgerCount + friesCount + sodaCount;
+
+            if (!userOrder.isEmpty() && totalItems > 0 && user != null) {
+                startActivity(
+                        CartActivity.cartActivityIntentFactory(
+                                this,
+                                user.getId(),
+                                userOrder
+                        )
+                );
+            } else {
+                Toast.makeText(this, "Please order something bro...", Toast.LENGTH_SHORT).show();
+            }
         });
 
 

@@ -2,38 +2,24 @@ package com.example.a338_project_2;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.Toast;
 
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 
-import com.example.a338_project_2.Database.CartDAO;
-import com.example.a338_project_2.Database.MenuDatabase;
 import com.example.a338_project_2.Database.MenuRepository;
-import com.example.a338_project_2.Database.entities.Cart;
 import com.example.a338_project_2.Database.entities.FoodMenu;
 import com.example.a338_project_2.Database.entities.User;
 import com.example.a338_project_2.databinding.ActivityCartBinding;
 
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 
@@ -55,7 +41,7 @@ public class CartActivity extends AppCompatActivity {
 
     private User user;
 
-    private static HashMap<LiveData<FoodMenu>, Integer> cartUserOrder = new HashMap<>();
+    private static HashMap<FoodMenu, Integer> cartUserOrder = new HashMap<>();
 
 
 
@@ -63,6 +49,8 @@ public class CartActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCartBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
         /*loginUser(savedInstanceState);*/
 
         /*if(loggedInUserId == -1){
@@ -71,33 +59,41 @@ public class CartActivity extends AppCompatActivity {
         }*/
         /*updateSharedPreference();*/
 
-        binding.cartRecyclerView.setText(createOrderText());
-        setContentView(R.layout.activity_cart);
+        updateCartDisplay();
 
-        
+        binding.checkoutButton.setOnClickListener( v -> {
+            Toast.makeText(this, "Order placed!", Toast.LENGTH_SHORT).show();
+        });
     }
 
-    private String createOrderText(){
-        StringBuilder result = new StringBuilder();
+    private void updateCartDisplay() {
+        StringBuilder itemsText = new StringBuilder();
+        int total = 0;
 
-            for (Map.Entry<LiveData<FoodMenu>, Integer> entry : cartUserOrder.entrySet()) {
+        for (Map.Entry<FoodMenu, Integer> entry : cartUserOrder.entrySet()) {
+            FoodMenu food = entry.getKey();
+            Integer quantity = entry.getValue();
 
-                LiveData<FoodMenu> foodLiveData = entry.getKey();
-                Integer quantity = entry.getValue();
+            if (food != null && quantity != null && quantity > 0) {
+                int lineTotal = food.getPrice() * quantity;
+                total += lineTotal;
 
-                FoodMenu food = foodLiveData.getValue(); // get actual object
-
-                if (food != null) {
-                    result.append(food.getFoodName())       // or whatever fields FoodMenu has
-                            .append(": ")
-                            .append(quantity)
-                            .append("\n");
-                }
+                itemsText.append(food.getFoodName())
+                        .append(" × ")
+                        .append(quantity)
+                        .append(" = $")
+                        .append(lineTotal)
+                        .append("\n");
+            }
         }
 
-        String finalString = result.toString();
-        return finalString;
+        binding.cartOrderTextView.setText(itemsText.toString());
+
+        binding.totalPriceTextView.setText(
+                String.format("Total: $%.2f", (double) total)
+        );
     }
+
    /* private void loginUser(Bundle savedInstanceState) {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),
                 Context.MODE_PRIVATE);
@@ -189,7 +185,7 @@ public class CartActivity extends AppCompatActivity {
         sharedPrefEditor.putInt(getString(R.string.preference_userId_key), loggedInUserId);
         sharedPrefEditor.apply();
     }*/
-    static Intent cartActivityIntentFactory(Context context, int userId, HashMap<LiveData<FoodMenu>, Integer> userOrder) {
+    static Intent cartActivityIntentFactory(Context context, int userId, HashMap<FoodMenu, Integer> userOrder) {
         Intent intent = new Intent(context, CartActivity.class);
         intent.putExtra(MAIN_ACTIVITY_USER_ID, userId);
         cartUserOrder = userOrder;
