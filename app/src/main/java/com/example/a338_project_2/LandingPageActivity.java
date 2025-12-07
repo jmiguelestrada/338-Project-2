@@ -10,16 +10,24 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 
+import com.example.a338_project_2.Database.CartDAO;
+import com.example.a338_project_2.Database.MenuDatabase;
 import com.example.a338_project_2.Database.MenuRepository;
+import com.example.a338_project_2.Database.entities.Cart;
 import com.example.a338_project_2.Database.entities.User;
 import com.example.a338_project_2.databinding.ActivityLandingPageBinding;
 import com.example.a338_project_2.databinding.ActivityMainBinding;
+import com.example.a338_project_2.Database.entities.FoodMenu;
+
+import java.util.HashMap;
+import java.util.List;
 
 public class LandingPageActivity extends AppCompatActivity {
 
@@ -34,10 +42,20 @@ public class LandingPageActivity extends AppCompatActivity {
     public static final String  TAG = "DAC_MENU";
     private int loggedInUserId = LOGGED_OUT;
     private User user;
+
+    private LiveData<FoodMenu> burgerLiveData;
+    private LiveData<FoodMenu> friesLiveData;
+    private LiveData<FoodMenu> sodaLiveData;
+
+    private FoodMenu burgerFood;
+    private FoodMenu friesFood;
+    private FoodMenu sodaFood;
+
     private int burgerCount = 0;
     private int sodaCount = 0;
     private int friesCount = 0;
 
+    private HashMap<FoodMenu, Integer> userOrder = new HashMap<>();
 
 
 
@@ -51,56 +69,208 @@ public class LandingPageActivity extends AppCompatActivity {
         repository = MenuRepository.getRepository(getApplication());
         loginUser(savedInstanceState);
 
-        if(loggedInUserId == -1){
+        if (loggedInUserId == LOGGED_OUT) {
             Intent intent = LoginActivity.loginIntentFactory(getApplicationContext());
             startActivity(intent);
+            finish();
+            return;
         }
+
         updateSharedPreference();
 
-        /**
+        burgerLiveData = repository.getMenuItemByName("Burger");
+        friesLiveData  = repository.getMenuItemByName("Fries");
+        sodaLiveData   = repository.getMenuItemByName("Soda");
+
+        burgerLiveData.observe(this, food -> burgerFood = food);
+        friesLiveData.observe(this,  food -> friesFood  = food);
+        sodaLiveData.observe(this,   food -> sodaFood   = food);
+
+        /*
          * Code for the Buttons to add and sub
          */
 
-        binding.button6.setOnClickListener(v -> {
+        /**
+         * Burger
+         */
+        binding.button6.setOnClickListener(v->{
             burgerCount++;
             binding.burgerCount.setText(String.valueOf(burgerCount));
         });
+
 
         binding.button.setOnClickListener(v -> {
             if (burgerCount > 0) burgerCount--;
             binding.burgerCount.setText(String.valueOf(burgerCount));
         });
 
+        /**
+         * Soda
+         */
+        binding.button3.setOnClickListener(v->{
+            sodaCount++;
+            binding.sodaCount.setText(String.valueOf(sodaCount));
+        });
+
+        binding.button5.setOnClickListener(v->{
+            if(sodaCount>0) sodaCount--;
+            binding.sodaCount.setText(String.valueOf(sodaCount));
+        });
 
 
+        /**
+         * Fries
+         */
 
+        binding.button2.setOnClickListener(v->{
+            friesCount++;
+            binding.friesCount.setText(String.valueOf(friesCount));
+        });
+
+        binding.button4.setOnClickListener(v->{
+            if(friesCount>0) friesCount--;
+            binding.friesCount.setText(String.valueOf(friesCount));
+        });
+
+
+        binding.userCartButton.setOnClickListener(v -> {
+            if (user == null) {
+                Toast.makeText(this, "Not logged in", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int totalItems = burgerCount + friesCount + sodaCount;
+            if (totalItems <= 0) {
+                Toast.makeText(this, "Please order something bro...", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            int userId = user.getId();
+
+            saveCartToDatabase(userId);
+
+            startActivity(CartActivity.cartActivityIntentFactory(
+                    LandingPageActivity.this, userId));
+        });
+
+        // ✅ Load previously saved counts from DB
+        loadCartCountsFromDatabase();
+    }
+
+    // ---------- Cart persistence helpers ----------
+
+    private void saveCartToDatabase(int userId) {
+        MenuDatabase.databaseWriteExecutor.execute(() -> {
+            CartDAO cartDAO = MenuDatabase.getDatabase(getApplicationContext()).cartDAO();
+
+            // Clear old rows for this user
+            cartDAO.clearCartForUser(userId);
+
+            // Burger
+            if (burgerCount > 0 && burgerFood != null) {
+                cartDAO.insert(new Cart(
+                        userId,
+                        burgerFood.getId(),
+                        burgerFood.getFoodName(),
+                        burgerFood.getPrice(),
+                        burgerCount
+                ));
+            }
+
+            // Fries
+            if (friesCount > 0 && friesFood != null) {
+                cartDAO.insert(new Cart(
+                        userId,
+                        friesFood.getId(),
+                        friesFood.getFoodName(),
+                        friesFood.getPrice(),
+                        friesCount
+                ));
+            }
+
+            // Soda
+            if (sodaCount > 0 && sodaFood != null) {
+                cartDAO.insert(new Cart(
+                        userId,
+                        sodaFood.getId(),
+                        sodaFood.getFoodName(),
+                        sodaFood.getPrice(),
+                        sodaCount
+                ));
+            }
+        });
+    }
+
+    private void loadCartCountsFromDatabase() {
+        if (loggedInUserId == LOGGED_OUT) return;
+
+        MenuDatabase.databaseWriteExecutor.execute(() -> {
+            CartDAO cartDAO = MenuDatabase.getDatabase(getApplicationContext()).cartDAO();
+            List<Cart> items = cartDAO.getAllCartItemsForUser(loggedInUserId);
+
+            int burgerQty = 0;
+            int friesQty = 0;
+            int sodaQty = 0;
+
+            for (Cart item : items) {
+                String name = item.getMenuItemName();
+                int qty = item.getMenuItemQuantity();
+
+                if ("Burger".equals(name)) {
+                    burgerQty = qty;
+                } else if ("Fries".equals(name)) {
+                    friesQty = qty;
+                } else if ("Soda".equals(name)) {
+                    sodaQty = qty;
+                }
+            }
+
+            int finalBurgerQty = burgerQty;
+            int finalFriesQty = friesQty;
+            int finalSodaQty = sodaQty;
+
+            runOnUiThread(() -> {
+                burgerCount = finalBurgerQty;
+                friesCount = finalFriesQty;
+                sodaCount = finalSodaQty;
+
+                binding.burgerCount.setText(String.valueOf(burgerCount));
+                binding.friesCount.setText(String.valueOf(friesCount));
+                binding.sodaCount.setText(String.valueOf(sodaCount));
+            });
+        });
     }
 
     private void loginUser(Bundle savedInstanceState) {
-        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key),
-                Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(
+                getString(R.string.preference_file_key),
+                Context.MODE_PRIVATE
+        );
 
         loggedInUserId = sharedPreferences.getInt(getString(R.string.preference_userId_key), LOGGED_OUT);
 
-        if(loggedInUserId == LOGGED_OUT & savedInstanceState != null && savedInstanceState.containsKey(SAVED_INSTANCE_STATE_USERID_KEY)){
+        if (loggedInUserId == LOGGED_OUT
+                & savedInstanceState != null
+                && savedInstanceState.containsKey(SAVED_INSTANCE_STATE_USERID_KEY)) {
+
             loggedInUserId = savedInstanceState.getInt(SAVED_INSTANCE_STATE_USERID_KEY, LOGGED_OUT);
         }
 
-        if(loggedInUserId == LOGGED_OUT){
+        if (loggedInUserId == LOGGED_OUT) {
             loggedInUserId = getIntent().getIntExtra(MAIN_ACTIVITY_USER_ID, LOGGED_OUT);
         }
 
-        if(loggedInUserId == LOGGED_OUT){
+        if (loggedInUserId == LOGGED_OUT) {
             return;
         }
+
         LiveData<User> userObserver = repository.getUserByUserId(loggedInUserId);
-        userObserver.observe(this, user -> {
-            this.user = user;
-            if(this.user != null){
+        userObserver.observe(this, u -> {
+            this.user = u;
+            if (this.user != null) {
                 invalidateOptionsMenu();
             }
         });
-
     }
 
     @Override
@@ -115,25 +285,23 @@ public class LandingPageActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
 
-        if (!user.isAdmin()){
+        if (user != null && !user.isAdmin()) {
             binding.adminSettingsButton.setVisibility(View.INVISIBLE);
         }
 
         MenuItem item = menu.findItem(R.id.logoutMenuItem);
         item.setVisible(true);
-        if(user == null){
+
+        if (user == null) {
             return false;
         }
+
         item.setTitle(user.getUsername());
-        item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-
-            @Override
-            public boolean onMenuItemClick(@NonNull MenuItem menuItem) {
-
-                showLogoutDialog();
-                return false;
-            }
+        item.setOnMenuItemClickListener(menuItem -> {
+            showLogoutDialog();
+            return false;
         });
+
         return true;
     }
 
@@ -163,11 +331,16 @@ public class LandingPageActivity extends AppCompatActivity {
 
     private void logout() {
 
+        if (user != null) {
+            saveCartToDatabase(user.getId());
+        }
+
         loggedInUserId = LOGGED_OUT;
         updateSharedPreference();
-        getIntent().putExtra(MAIN_ACTIVITY_USER_ID,LOGGED_OUT);
+        getIntent().putExtra(MAIN_ACTIVITY_USER_ID, LOGGED_OUT);
 
         startActivity(LoginActivity.loginIntentFactory(getApplicationContext()));
+        finish();
     }
 
     @Override
