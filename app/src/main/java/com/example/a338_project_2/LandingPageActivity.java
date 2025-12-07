@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
@@ -56,6 +57,25 @@ public class LandingPageActivity extends AppCompatActivity {
             startActivity(intent);
         }
         updateSharedPreference();
+
+        /**
+         * Trouble shooting: this was recommended by chat
+         *
+         */
+
+        binding.adminSettingsButton.setEnabled(false);
+        /**
+         * Make the admin button take you to the admin page.
+         */
+        binding.adminSettingsButton.setOnClickListener(v->{if(user != null && user.isAdmin())
+            {
+                Intent intent = new Intent(LandingPageActivity.this,AdminActivity.class);
+                startActivity(intent);
+            } else {
+            Toast.makeText(this, "Error, you do not have privlages (hopefully not error)",
+                    Toast.LENGTH_SHORT).show();
+        }
+        });
 
         /**
          * Code for the Buttons to add and sub
@@ -130,6 +150,15 @@ public class LandingPageActivity extends AppCompatActivity {
         userObserver.observe(this, user -> {
             this.user = user;
             if(this.user != null){
+
+
+                /**
+                 * added this trying out something, remove if needed might break code :(
+                 * it for the admin button on landing.
+                 */
+                binding.adminSettingsButton.setEnabled(true);
+
+
                 invalidateOptionsMenu();
             }
         });
