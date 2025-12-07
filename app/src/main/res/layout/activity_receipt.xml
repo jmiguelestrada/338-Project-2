@@ -21,21 +21,24 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
         android:id="@+id/receiptInfoTextView"
-        android:layout_width="288dp"
-        android:layout_height="325dp"
+        android:layout_width="380dp"
+        android:layout_height="380dp"
         android:layout_marginBottom="79dp"
         android:gravity="center"
         android:text="Receipt Info"
-        app:layout_constraintBottom_toBottomOf="@+id/button"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="@+id/buttonOrderAgain"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.512"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/receiptTitleTextView" />
-
+        app:layout_constraintTop_toBottomOf="@+id/receiptTitleTextView"
+        app:layout_constraintVertical_bias="0.459" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/buttonOrderAgain"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
@@ -45,7 +48,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/buttonLogout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
