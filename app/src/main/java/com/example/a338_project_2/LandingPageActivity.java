@@ -153,17 +153,13 @@ public class LandingPageActivity extends AppCompatActivity {
                     LandingPageActivity.this, userId));
         });
 
-        // ✅ Load previously saved counts from DB
         loadCartCountsFromDatabase();
     }
-
-    // ---------- Cart persistence helpers ----------
 
     private void saveCartToDatabase(int userId) {
         MenuDatabase.databaseWriteExecutor.execute(() -> {
             CartDAO cartDAO = MenuDatabase.getDatabase(getApplicationContext()).cartDAO();
 
-            // Clear old rows for this user
             cartDAO.clearCartForUser(userId);
 
             // Burger
