@@ -132,6 +132,8 @@ public class LandingPageActivity extends AppCompatActivity {
             binding.friesCount.setText(String.valueOf(friesCount));
         });
 
+        binding.adminSettingsButton.setOnClickListener(v ->
+                startActivity(AdminActivity.adminPageIntentFactory(LandingPageActivity.this, loggedInUserId)));
 
         binding.userCartButton.setOnClickListener(v -> {
             if (user == null) {
@@ -150,7 +152,7 @@ public class LandingPageActivity extends AppCompatActivity {
             saveCartToDatabase(userId);
 
             startActivity(CartActivity.cartActivityIntentFactory(
-                    LandingPageActivity.this, userId));
+                    LandingPageActivity.this, loggedInUserId));
         });
 
         // ✅ Load previously saved counts from DB
