@@ -10,6 +10,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -85,6 +86,13 @@ public class LandingPageActivity extends AppCompatActivity {
         burgerLiveData.observe(this, food -> burgerFood = food);
         friesLiveData.observe(this,  food -> friesFood  = food);
         sodaLiveData.observe(this,   food -> sodaFood   = food);
+
+        // Button to go to Admin page (if logged in as admin)
+        Button adminButton = findViewById(R.id.adminSettingsButton);
+        adminButton.setOnClickListener(v -> {
+            Intent intent = new Intent(LandingPageActivity.this, AdminActivity.class);
+            startActivity(intent);
+        });
 
         /*
          * Code for the Buttons to add and sub
