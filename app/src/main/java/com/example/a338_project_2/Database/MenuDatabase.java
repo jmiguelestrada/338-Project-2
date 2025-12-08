@@ -86,5 +86,6 @@ public abstract class MenuDatabase extends RoomDatabase {
     public abstract UserDAO userDAO();
     public abstract MenuDAO menuDAO();
 
+
     public abstract CartDAO cartDAO();
 }

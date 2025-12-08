@@ -5,11 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.LiveData;
 
 import com.example.a338_project_2.Database.CartDAO;
@@ -17,7 +13,6 @@ import com.example.a338_project_2.Database.MenuDatabase;
 import com.example.a338_project_2.Database.MenuRepository;
 import com.example.a338_project_2.Database.entities.Cart;
 import com.example.a338_project_2.Database.entities.User;
-import com.example.a338_project_2.databinding.ActivityCartBinding;
 import com.example.a338_project_2.databinding.ActivityReceiptBinding;
 
 import java.util.List;
@@ -34,6 +29,8 @@ public class ReceiptActivity extends AppCompatActivity {
 
     private ActivityReceiptBinding binding;
     private int loggedInUserId = LOGGED_OUT;
+
+    private static int receiptIdPlaceHolder = 0;
 
     private MenuRepository repository;
 
@@ -95,11 +92,11 @@ public class ReceiptActivity extends AppCompatActivity {
     }
 
     private void createReceipt(List<Cart> items){
-
+        receiptIdPlaceHolder++;
         StringBuilder itemsText = new StringBuilder();
         int total = 0;
         itemsText.append("=-=-=-=-=-=-=-=-=-=-=-=-==-=-=-=\n\n" +
-                "Order: " + "123\n" + '\n' +
+                "Order: " + receiptIdPlaceHolder + "\n" + '\n' +
                 "Customer Name:    " + user.getUsername() + "\n\n\n" +
                 "items: \n");
         for (Cart item : items) {

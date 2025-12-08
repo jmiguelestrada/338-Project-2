@@ -58,14 +58,12 @@
         android:id="@+id/button3"
         android:layout_width="48dp"
         android:layout_height="58dp"
-        android:layout_marginStart="11dp"
-        android:layout_marginTop="10dp"
         android:text="+"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintStart_toStartOf="@+id/sodaCount"
         app:layout_constraintTop_toBottomOf="@+id/button4"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -75,7 +73,7 @@
         android:layout_height="115dp"
         android:layout_marginTop="280dp"
         android:gravity="center"
-        android:text="Soda   $40"
+        android:text="Soda   $2"
         android:textSize="30dip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.141"
@@ -88,7 +86,7 @@
         android:layout_height="115dp"
         android:layout_marginTop="152dp"
         android:gravity="center"
-        android:text="Fries   $40"
+        android:text="Fries     $4"
         android:textSize="30dip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.151"
@@ -141,7 +139,7 @@
         android:layout_width="143dp"
         android:layout_height="147dp"
         android:gravity="center"
-        android:text="Burger   $40"
+        android:text="Burger   $7"
         android:textSize="30dip"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.147"
@@ -187,16 +185,13 @@
         android:id="@+id/button2"
         android:layout_width="48dp"
         android:layout_height="58dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="154dp"
-        android:layout_marginBottom="324dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="4dp"
+
         android:text="+"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/welcomeMessage" />
+        app:layout_constraintStart_toStartOf="@+id/friesCount"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
 
     <Button
         android:id="@+id/button"
@@ -207,7 +202,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintStart_toEndOf="@+id/button2"
         app:layout_constraintTop_toBottomOf="@+id/button6"
         app:layout_constraintVertical_bias="0.0" />
 
@@ -215,16 +210,12 @@
         android:id="@+id/button4"
         android:layout_width="48dp"
         android:layout_height="58dp"
-        android:layout_marginStart="5dp"
         android:layout_marginTop="3dp"
+
         android:text="-"
         android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/button2" />
 
     <TextView
         android:id="@+id/burgerCount"
