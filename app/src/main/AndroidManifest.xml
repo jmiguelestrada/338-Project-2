@@ -11,6 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
+
+        <activity android:name=".AdminActivity" android:exported="true"/>
+
         <activity
             android:name=".CartActivity"
             android:exported="false" />
