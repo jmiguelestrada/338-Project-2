@@ -81,9 +81,15 @@ public class CartActivity extends AppCompatActivity {
         }
 
         loadCartFromDatabase();
-        binding.checkoutButton.setOnClickListener(v ->
-                Toast.makeText(this, "Order placed!", Toast.LENGTH_SHORT).show()
-        );
+        binding.checkoutButton.setOnClickListener(v -> {
+            Toast.makeText(this, "Order placed!", Toast.LENGTH_SHORT).show();
+
+            int userId = user.getId();
+            startActivity(ReceiptActivity.receiptActivityIntentFactory(
+                    CartActivity.this, userId));
+
+            finish();
+        });
     }
 
 
